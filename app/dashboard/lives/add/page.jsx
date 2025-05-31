@@ -112,12 +112,20 @@ const AddLive = () => {
               {/* Thumbnail */}
               <FormField
                 control={form.control}
-                name="title"
+                name="thumbnail"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Thumbnail</FormLabel>
                     <FormControl>
-                      <UploadDropzone />
+                      <UploadDropzone
+                        onUpload={(files) => {
+                          const uploadedFile = files[0];
+                          if (uploadedFile) {
+                            const filePath = `/assets/images/lives/${uploadedFile.name}`;
+                            field.onChange(filePath); // Save to form state
+                          }
+                        }}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
