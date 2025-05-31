@@ -54,12 +54,12 @@ export const ModulesForm = ({ initialData, courseId }) => {
       formData.append("courseId", courseId);
       formData.append("order", modules.length);
 
-      const module = await createModule(formData);
+      const moduleData = await createModule(formData);
 
       setModules((modules) => [
         ...modules,
         {
-          id: module?._id.toString(),
+          id: moduleData?._id.toString(),
           title: values.title,
         },
       ]);

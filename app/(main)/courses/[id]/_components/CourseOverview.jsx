@@ -10,7 +10,7 @@ const CourseOverview = ({ course }) => {
                 <ul className="grid sm:grid-cols-2 grid-cols-1 gap-6">
                     {course?.learning &&
                         course?.learning.map((learning) => (
-                            <li className="flex space-x-3">
+                            <li key={course?._id} className="flex space-x-3">
                                 <div className="flex-none relative top-1">
                                     <CheckCheck />
                                 </div>
