@@ -4,8 +4,8 @@ import { Lesson } from "@/model/lesson.model";
 
 export async function create(moduleData) {
     try {
-        const module = await Module.create(moduleData);
-        return JSON.parse(JSON.stringify(module));
+        const newModule = await Module.create(moduleData);
+        return JSON.parse(JSON.stringify(newModule));
     } catch (e) {
         throw new Error(e)
     }
@@ -13,13 +13,13 @@ export async function create(moduleData) {
 
 export async function getModule(moduleId) {
     try {
-        const module = await Module.findById(moduleId).
+        const moduleData = await Module.findById(moduleId).
         populate({
             path: "lessonIds",
             model: Lesson
         }).
         lean();
-        return replaceMongoIdInObject(module);
+        return replaceMongoIdInObject(moduleData);
     } catch (e) {
         throw new Error(e)
     }
@@ -27,8 +27,8 @@ export async function getModule(moduleId) {
 
 export async function getModuleBySlug(moduleSlug) {
     try {
-        const module = await Module.findOne({slug: moduleSlug}).lean();
-        return replaceMongoIdInObject(module);
+        const moduleData = await Module.findOne({slug: moduleSlug}).lean();
+        return replaceMongoIdInObject(moduleData);
     } catch(err) {
         throw new Error(err);
     }

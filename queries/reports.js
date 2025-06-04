@@ -59,8 +59,8 @@ export async function createWatchReport(data) {
                 new mongoose.Types.ObjectId(data.lessonId)
             );
         }
-        const module = await Module.findById(data.moduleId);
-        const lessonIdsToCheck = module.lessonIds;
+        const moduleData = await Module.findById(data.moduleId);
+        const lessonIdsToCheck = moduleData.lessonIds;
         const completedLessonsIds = report.totalCompletedLessons;
 
         const isModuleComplete = lessonIdsToCheck.every((lesson) =>
