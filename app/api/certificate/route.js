@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import fontkit from "@pdf-lib/fontkit";
 
@@ -29,7 +30,8 @@ export async function GET(request) {
      * Configuratios
      *
      *-------------------*/
-    const searchParams = request.nextUrl.searchParams;
+    // const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.URL);
     const courseId = searchParams.get("courseId");
     const course = await getCourseDetails(courseId);
     const loggedInUser = await getLoggedInUser();
