@@ -54,6 +54,14 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/hoist-non-react-statics": "^3.3.6",
+    "@types/json5": "^0.0.30",
+    "@types/node": "^22.15.29",
+    "@types/quill": "^2.0.14",
+    "@types/react": "^18.3.23",
+    "@types/use-sync-external-store": "^1.5.0",
+    "@types/webidl-conversions": "^7.0.3",
+    "@types/whatwg-url": "^13.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.3",
     "postcss": "^8",
