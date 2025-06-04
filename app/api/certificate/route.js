@@ -7,35 +7,20 @@ import { getAReport } from "@/queries/reports";
 
 import { formatMyDate } from "@/lib/date";
 
-// Fetch custom fonts
-const kalamFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/kalam/Kalam-Regular.ttf`;
-const kalamFontBytes = await fetch(kalamFontUrl).then((res) =>
-  res.arrayBuffer()
-);
-console.log({
-  env: process.env.NEXT_PUBLIC_BASE_URL,
-});
-console.log({
-  kalamFontUrl,
-  kalamFontBytes,
-});
+// Font fetching
+const fontBase = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const fetchFont = async (path) => {
+  const res = await fetch(`${fontBase}${path}`);
+  return res.arrayBuffer();
+};
 
-const montserratItalicFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/montserrat/Montserrat-Italic.ttf`;
-const montserratItalicFontBytes = await fetch(montserratItalicFontUrl).then(
-  (res) => res.arrayBuffer()
+const kalamFontBytes = await fetchFont("/fonts/kalam/Kalam-Regular.ttf");
+const montserratItalicFontBytes = await fetchFont(
+  "/fonts/montserrat/Montserrat-Italic.ttf"
 );
-console.log({
-  montserratItalicFontUrl,
-  montserratItalicFontBytes,
-});
-const montserratFontUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/fonts/montserrat/Montserrat-Medium.ttf`;
-const montserratFontBytes = await fetch(montserratFontUrl).then((res) =>
-  res.arrayBuffer()
+const montserratFontBytes = await fetchFont(
+  "/fonts/montserrat/Montserrat-Medium.ttf"
 );
-console.log({
-  montserratFontUrl,
-  montserratFontBytes,
-});
 
 export async function GET(request) {
   try {
@@ -44,14 +29,19 @@ export async function GET(request) {
      * Configuratios
      *
      *-------------------*/
-    const searchParams = request.nextUrl.searchParams
-    const courseId = searchParams.get('courseId');
-    const course  = await getCourseDetails(courseId);
+    const searchParams = request.nextUrl.searchParams;
+    const courseId = searchParams.get("courseId");
+    const course = await getCourseDetails(courseId);
     const loggedInUser = await getLoggedInUser();
 
-    const report = await getAReport({ course: courseId, student:loggedInUser.id });
+    const report = await getAReport({
+      course: courseId,
+      student: loggedInUser.id,
+    });
     console.log(report?.completion_date);
-    const completionDate = report?.completion_date ? formatMyDate(report?.completion_date) : formatMyDate(Date.now());
+    const completionDate = report?.completion_date
+      ? formatMyDate(report?.completion_date)
+      : formatMyDate(Date.now());
     console.log(completionDate);
 
     const completionInfo = {
@@ -202,7 +192,7 @@ export async function GET(request) {
       size: 10,
       font: timesRomanFont,
       color: rgb(0, 0, 0),
-      maxWidth: 250
+      maxWidth: 250,
     });
     page.drawLine({
       start: { x: width - signatureBoxWidth, y: 110 },
@@ -245,9 +235,14 @@ export async function GET(request) {
      *-------------------*/
     const pdfBytes = await pdfDoc.save();
     return new Response(pdfBytes, {
-      headers: { "content-type": "application/pdf" },
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "inline; filename=certificate.pdf",
+      },
     });
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.error(err);
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
