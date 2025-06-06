@@ -3,7 +3,7 @@ import { CourseProgress } from "@/components/course-progress";
 import Link from "next/link";
 
 import { GiveReview } from "./give-review";
-import { DownloadCertificate } from "./download-certificate";
+// import { DownloadCertificate } from "./download-certificate";
 import { SidebarModules } from "./sidebar-modules";
 import { getCourseDetails } from "@/queries/courses";
 import { getLoggedInUser } from "@/lib/loggedin-user";
@@ -65,7 +65,7 @@ export const CourseSidebar = async ({courseId}) => {
               </div>
 
               <div className="w-full px-6">
-                  <DownloadCertificate courseId={courseId} totalProgress={totalProgress}/>
+                  {/* <DownloadCertificate courseId={courseId} totalProgress={totalProgress}/> */}
                   <GiveReview courseId={courseId}/>
               </div>
           </div>
